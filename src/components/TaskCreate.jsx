@@ -1,26 +1,34 @@
 import { useState } from "react";
+import {useContext} from 'react';
+import TasksContext from '../context/Task';
 
-function TaskCreate({onCreate,task,taskFormUpdate,onUpdate}) {
+
+function TaskCreate({task,taskFormUpdate,onUpdate}) {
     const [title, setTitle] = useState(task ? task.title : "")
     const [tascDesc, setTaskDesc] = useState(task ? task.tascDesc : "")
+
+    const {createTask,editTaskById} = useContext(TasksContext)
     const handleChange = (event)=>{
         setTitle(event.target.value)
     }
     const handleTascDesc = (event)=>{
         setTaskDesc(event.target.value)
     }
+   
     const handleSubmit = (event)=>{
         event.preventDefault()
         if(taskFormUpdate){
             onUpdate(task.id,title,tascDesc)
         }else{
-            onCreate(title,tascDesc)
+            createTask(title,tascDesc)
         }
         
         setTitle("")
         setTaskDesc("")
     }
     
+   
+
     return ( 
     <div>{taskFormUpdate ? 
     <div className="task-updatee">
